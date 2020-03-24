@@ -26,8 +26,8 @@ class Sphere{
   }
 
   void setRandomPosition(){
-    pos.x = random(1.5*radius, width);
-    pos.y = random(1.5*radius, height);
+    pos.x = random(radius, width-radius);
+    pos.y = random(radius, height-radius);
   }
 
   void setVelocity(PVector _vel){
@@ -36,7 +36,7 @@ class Sphere{
 
   void setRandomVelocity(){
     vel = PVector.random2D();
-    vel.mult(3);
+    vel.mult(5);
   }
 
   void setRadius(int _radius){
