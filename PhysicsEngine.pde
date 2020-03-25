@@ -1,5 +1,5 @@
 class PhysicsEngine{
-  Sphere[] spheres = new Sphere[2];
+  Sphere[] spheres = new Sphere[4];
 
   PhysicsEngine(){
     spheres[0] = new Sphere();
@@ -14,6 +14,19 @@ class PhysicsEngine{
     
     spheres[0].setColour(color(150,0,0));
     spheres[1].setColour(color(0,0,150)); 
+    
+    spheres[2] = new Sphere();
+    spheres[2].setPosition(new PVector(100,100));
+    spheres[2].setVelocity(new PVector(3,-0.5));
+    spheres[2].setRadius(35);
+    
+    spheres[3] = new Sphere();
+    spheres[3].setPosition(new PVector(400,100));
+    spheres[3].setVelocity(new PVector(-2,1));
+    spheres[3].setRadius(35);
+    
+    spheres[2].setColour(color(150,0,0));
+    spheres[3].setColour(color(0,0,150));
   }
 
   void show(){
@@ -26,7 +39,7 @@ class PhysicsEngine{
     boundaryCollisions();
 
     //Change colour of spheres if colliding
-    for(int i = 0; i < spheres.length; i++){ //<>//
+    for(int i = 0; i < spheres.length; i++){
       Sphere s1 = spheres[i];
       for(int j = i+1; j < spheres.length; j++){
         Sphere s2 = spheres[j];
@@ -44,8 +57,8 @@ class PhysicsEngine{
   
   void collideSpheres(Sphere _s1, Sphere _s2){
     //a is alpha
-    float a = atan((_s2.pos.y - _s1.pos.y)/(_s2.pos.x - _s1.pos.x)); //<>//
-    if(a < 0) a += PI;
+    float a = atan((_s2.pos.y - _s1.pos.y)/(_s2.pos.x - _s1.pos.x));
+    //(a < 0) a += PI;
 
     //Perpendicular and parallel components of initial velocity
     float uPerp1 = (_s1.vel.x*cos(a)) + (_s1.vel.y*sin(a));
@@ -55,8 +68,8 @@ class PhysicsEngine{
     float uPara2 = (_s2.vel.x*sin(a)) - (_s2.vel.y*cos(a));
 
     //Perpendicular component of final velocity, without masses or e
-    float vPerp1 = ((1*uPerp2)+(1*uPerp1))/(1);
-    float vPerp2 = ((1*uPerp1)+(1*uPerp2))/(1);
+    float vPerp1 = ((2*uPerp2)+(0*uPerp1))/(2);
+    float vPerp2 = ((2*uPerp1)+(0*uPerp2))/(2);
 
     //Final velocities
     _s1.vel.x = (uPara1*sin(a)) + (vPerp1*cos(a));
