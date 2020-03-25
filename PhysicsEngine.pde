@@ -1,13 +1,19 @@
 class PhysicsEngine{
-  Sphere[] spheres = new Sphere[10];
+  Sphere[] spheres = new Sphere[2];
 
   PhysicsEngine(){
-    for(int i = 0; i < spheres.length; i++){
-      spheres[i] = new Sphere();
-      spheres[i].setRandomPosition();
-      spheres[i].setRadius(20);
-      spheres[i].setRandomVelocity();
-    }
+    spheres[0] = new Sphere();
+    spheres[0].setPosition(new PVector(100,400));
+    spheres[0].setVelocity(new PVector(1,-1));
+    spheres[0].setRadius(35);
+    
+    spheres[1] = new Sphere();
+    spheres[1].setPosition(new PVector(400,400));
+    spheres[1].setVelocity(new PVector(-1,-1));
+    spheres[1].setRadius(35);
+    
+    spheres[0].setColour(color(150,0,0));
+    spheres[1].setColour(color(0,0,150)); 
   }
 
   void show(){
@@ -19,17 +25,14 @@ class PhysicsEngine{
   void update(){
     boundaryCollisions();
 
-    for(Sphere s : spheres){
-      s.setColour(color(150,150,150));
-    }
-
     //Change colour of spheres if colliding
-    for(Sphere s1 : spheres){
-      for(Sphere s2 : spheres){
-        if(s1 == s2) continue;
+    for(int i = 0; i < spheres.length; i++){ //<>//
+      Sphere s1 = spheres[i];
+      for(int j = i+1; j < spheres.length; j++){
+        Sphere s2 = spheres[j];
 
         if(spheresColliding(s1, s2)){
-          s1.setColour(color(200,0,0));
+          collideSpheres(s1, s2);
         }
       }
     }
@@ -37,6 +40,30 @@ class PhysicsEngine{
     for(Sphere s : spheres){
       s.updatePosition();
     }
+  }
+  
+  void collideSpheres(Sphere _s1, Sphere _s2){
+    //a is alpha
+    float a = atan((_s2.pos.y - _s1.pos.y)/(_s2.pos.x - _s1.pos.x)); //<>//
+    if(a < 0) a += PI;
+
+    //Perpendicular and parallel components of initial velocity
+    float uPerp1 = (_s1.vel.x*cos(a)) + (_s1.vel.y*sin(a));
+    float uPara1 = (_s1.vel.x*sin(a)) - (_s1.vel.y*cos(a));
+
+    float uPerp2 = (_s2.vel.x*cos(a)) + (_s2.vel.y*sin(a));
+    float uPara2 = (_s2.vel.x*sin(a)) - (_s2.vel.y*cos(a));
+
+    //Perpendicular component of final velocity, without masses or e
+    float vPerp1 = ((1*uPerp2)+(1*uPerp1))/(1);
+    float vPerp2 = ((1*uPerp1)+(1*uPerp2))/(1);
+
+    //Final velocities
+    _s1.vel.x = (uPara1*sin(a)) + (vPerp1*cos(a));
+    _s1.vel.y = (vPerp1*sin(a)) - (uPara1*cos(a));
+
+    _s2.vel.x = (uPara2*sin(a)) + (vPerp2*cos(a));
+    _s2.vel.y = (vPerp2*sin(a)) - (uPara2*cos(a));
   }
 
   boolean spheresColliding(Sphere _s1, Sphere _s2){
