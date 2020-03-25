@@ -1,8 +1,10 @@
-PhysicsEngine engine = new PhysicsEngine();
+PhysicsEngine engine;
 
 
 void setup(){
   size(500, 500);
+  
+  engine  = new PhysicsEngine();
 }
 
 void draw(){

@@ -3,6 +3,7 @@ class Sphere{
   PVector vel = new PVector();
   int radius;
   color colour = color(150, 150, 150);
+  float mass;
 
   Sphere(){
 
@@ -36,7 +37,7 @@ class Sphere{
 
   void setRandomVelocity(){
     vel = PVector.random2D();
-    vel.mult(5);
+    vel.mult(2);
   }
 
   void setRadius(int _radius){
@@ -45,5 +46,9 @@ class Sphere{
 
   void setColour(color _colour){
     colour = _colour;
+  }
+
+  void setMass(float _mass){
+    mass = _mass;
   }
 }
