@@ -6,12 +6,15 @@ class PhysicsEngine{
     
     initialiseSpheres(num);
     
+    //Adds big sphere
+    /*
     spheres[num] = new Sphere();
     spheres[num].setPosition(new PVector(400,400));
     spheres[num].setVelocity(new PVector(0,0));
     spheres[num].setMass(50);
     spheres[num].setRadius(40);
     spheres[num].setColour(color(200,0,0));
+    */
   }
 
   void show(){
@@ -78,7 +81,11 @@ class PhysicsEngine{
 
   void initialiseSpheres(int _num){
     //Starts spheres in a grid
-    spheres = new Sphere[_num + 1];
+
+    //This is if you want a big sphere
+    //spheres = new Sphere[_num + 1];
+    //This is if you don't
+    spheres = new Sphere[_num];
 
     int spacing = 50;
     int cols = width / spacing;
