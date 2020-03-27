@@ -4,22 +4,24 @@ class PhysicsEngine{
   PhysicsEngine(){
     int num = 50;
     
-    initialiseSpheres(num);
+    initialiseSpheres(num, 5);
     
     //Adds big sphere
-    /*
+    
     spheres[num] = new Sphere();
     spheres[num].setPosition(new PVector(400,400));
     spheres[num].setVelocity(new PVector(0,0));
-    spheres[num].setMass(50);
+    spheres[num].setMass(500);
     spheres[num].setRadius(40);
     spheres[num].setColour(color(200,0,0));
-    */
+    
   }
 
   void show(){
     for(Sphere s : spheres){
       s.show();
+      //Draws arrows showing velocity
+      //s.showVelocity();
     }
   }
 
@@ -84,27 +86,27 @@ class PhysicsEngine{
     }
   }
 
-  void initialiseSpheres(int _num){
+  void initialiseSpheres(int _num, int _radius){
     //Starts spheres in a grid
 
     //This is if you want a big sphere
-    //spheres = new Sphere[_num + 1];
+    spheres = new Sphere[_num + 1];
     //This is if you don't
-    spheres = new Sphere[_num];
+    //spheres = new Sphere[_num];
 
-    int spacing = 50;
+    int spacing = _radius * 2;
     int cols = width / spacing;
     int rows = height / spacing;
 
     int counter = 0;
-    for(int x = 0; x < cols; x++){ //<>//
+    for(int x = 0; x < cols; x++){
       for(int y = 0; y < rows; y++){
         if(counter >= _num) break;
 
         spheres[counter] = new Sphere();
         spheres[counter].setPosition(new PVector(x*spacing, y*spacing));
         spheres[counter].setRandomVelocity();
-        spheres[counter].setRadius(10);
+        spheres[counter].setRadius(_radius);
         spheres[counter].setMass(1);
 
         counter++;
