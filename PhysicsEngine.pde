@@ -64,11 +64,24 @@ class PhysicsEngine{
     float vPerp2 = (((1+e)*m2*uPerp1)+((m2-(e*m1))*uPerp2))/(m1+m2);;
 
     //Final velocities
-    _s1.vel.x = (uPara1*sin(a)) + (vPerp1*cos(a));
-    _s1.vel.y = (vPerp1*sin(a)) - (uPara1*cos(a));
+    //If already moving away from each other, no need to change their velocities
+    if(_s1.pos.y < _s2.pos.y && _s1.vel.y < 0){        //above and moving up
+    }else if(_s1.pos.y > _s2.pos.y && _s1.vel.y > 0){  //below and moving down
+    }else if(_s1.pos.x < _s2.pos.x && _s1.vel.x < 0){  //to the left and moving left
+    }else if(_s1.pos.x > _s2.pos.x && _s1.vel.x > 0){  //to the right and moving right
+    }else{                                             //If none of the above is true, change velocity
+      _s1.vel.x = (uPara1*sin(a)) + (vPerp1*cos(a));
+      _s1.vel.y = (vPerp1*sin(a)) - (uPara1*cos(a));
+    }
 
-    _s2.vel.x = (uPara2*sin(a)) + (vPerp2*cos(a));
-    _s2.vel.y = (vPerp2*sin(a)) - (uPara2*cos(a));
+    if(_s2.pos.y < _s1.pos.y && _s2.vel.y < 0){        //above and moving up
+    }else if(_s2.pos.y > _s1.pos.y && _s2.vel.y > 0){  //below and moving down
+    }else if(_s2.pos.x < _s1.pos.x && _s2.vel.x < 0){  //to the left and moving left
+    }else if(_s2.pos.x > _s1.pos.x && _s2.vel.x > 0){  //to the right and moving right
+    }else{                                             //If none of the above is true, change velocity
+      _s2.vel.x = (uPara2*sin(a)) + (vPerp2*cos(a));
+      _s2.vel.y = (vPerp2*sin(a)) - (uPara2*cos(a));
+    }
   }
 
   boolean spheresColliding(Sphere _s1, Sphere _s2){
